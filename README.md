@@ -244,7 +244,7 @@ $ tensorboard --logdir=eval_faster_rcnn/
 ## Results on different models :
 
 <p align="center">
-Markdown | Faster R-CNN Resnet-50| SSD Inception V2| SSD lite MObilenet
+Models| Faster R-CNN Resnet-50| SSD Inception V2| SSD lite MObilenet
 --- | --- | ---| ---
 
 Loss (Classification)|0.23|2.64|2.94
