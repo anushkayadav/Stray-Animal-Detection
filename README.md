@@ -116,7 +116,7 @@ This creates a train_labels.csv and val_labels.csv file in the /object_detection
 
 Next, open the generate_tfrecord.py file in a nano text editor. Replace the label map starting at line 31 with your own label map, where each object is assigned an ID number. This same number assignment will be used when configuring the labelmap.pbtxt file in Step 5b. 
 
-For example, say you are training a classifier to detect tigers. You will replace the following code in generate_tfrecord.py:
+You will replace the following code in generate_tfrecord.py:
 ```
 def class_text_to_int(row_label):
     if row_label == 'cow':
@@ -144,7 +144,7 @@ python generate_tfrecord.py --csv_input=images/val.csv --image_dir=images/val --
 These generate a train.record and a test.record file in /object_detection. These will be used to train the new object detection classifier.
 
 #### 3b. Create Label Map 
-The last thing to do before training is to create a label map and edit the training configuration file. The label map tells the trainer what each object is by defining a mapping of class names to class ID numbers. Use a text editor to create a new file and save it as labelmap.pbtxt in the /tensorflow1/models/research/object_detection/training_faster_rcnn folder. (Make sure the file type is .pbtxt, not .txt !) In the text editor, copy or type in the label map in the format below:
+ The label map tells the trainer what each object is by defining a mapping of class names to class ID numbers. Use a text editor to create a new file and save it as labelmap.pbtxt in the /tensorflow1/models/research/object_detection/training_faster_rcnn folder. (Make sure the file type is .pbtxt, not .txt !) 
 ```
 item {
   id: 1
@@ -177,13 +177,11 @@ item {
 #### 3c. Configure training
 Finally, the object detection training pipeline must be configured. It defines which model and what parameters will be used for training. This is the last step before running training!
 
-Navigate to /tensorflow1/models/research/object_detection/samples/configs and copy the ssd_inception_v2_pets.config file into the /object_detection/training_faster_rcnn directory. Then, open the file with a text editor. There are several changes to make to the .config file, mainly changing the number of classes and examples, and adding the file paths to the training data.
+Navigate to configs folder and copy the .config file into the /object_detection/training_faster_rcnn directory. 
+Make the following changes to the faster_rcnn_inception_v2_coco.config file. Note
 
-Make the following changes to the faster_rcnn_inception_v2_coco.config file. Note: The paths must be entered with single forward slashes (NOT backslashes), or TensorFlow will give a file path error when trying to train the model! Also, the paths must be in double quotation marks ( " ), not single quotation marks ( ' ).
-
-- Line 9. Change num_classes to the number of different objects you want the classifier to detect. For the above Tiger class, it would be num_classes : 1 .
-- Line 110. Change fine_tune_checkpoint to:
-  - fine_tune_checkpoint : "tensorflow1/models/research/object_detection/ssd_inception_v2_coco_2018_01_28/model.ckpt"
+- Line 9. Change num_classes to the number of different objects you want the classifier to detect. 
+- Line 110. Change fine_tune_checkpoint to: "tensorflow1/models/research/object_detection/ssd_inception_v2_coco_2018_01_28/model.ckpt"
 
 - Lines 126 and 128. In the train_input_reader section, change input_path and label_map_path to:
   - input_path : "tensorflow1/models/research/object_detection/images/train.record"
@@ -195,7 +193,6 @@ Make the following changes to the faster_rcnn_inception_v2_coco.config file. Not
   - input_path : "tensorflow1/models/research/object_detection/images/val.record"
   - label_map_path: "tensorflow1/models/research/object_detection/training_faster_rcnn/labelmap.pbtxt"
 
-Save the file after the changes have been made. That’s it! The training job is all configured and ready to go!
 
 #### 3c. Run the training
 
@@ -203,11 +200,7 @@ Here we go! From the /object_detection directory, issue the following command to
 ```
 python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/ssd_inception_v2_coco.config
 ```
-If everything has been set up correctly, TensorFlow will initialize the training. The initialization can take up to 30 seconds before the actual training begins. When training begins, it will look like this:
-
-Each step of training reports the loss. It will start high and get lower and lower as training progresses. For my training on the ssd-Inception-V2 model, it started at about 12.0 and quickly dropped below 2. I recommend allowing your model to train until the loss consistently drops below 0.2, which will take about 10k steps, or about 8 hours (depending on how powerful your CPU and GPU are). Note: The loss numbers will be different if a different model is used. MobileNet-SSD starts with a loss of about 20, and should be trained until the loss is consistently under 2.
-
-The training routine periodically saves checkpoints about every five minutes. You can terminate the training by pressing Ctrl+C while in the command prompt window. I typically wait until just after a checkpoint has been saved to terminate the training. You can terminate training and start it later, and it will restart from the last saved checkpoint. The checkpoint at the highest number of steps will be used to generate the frozen inference graph.
+If everything has been set up correctly, TensorFlow will initialize the training. The initialization can take up to 30 seconds before the actual training begins. The checkpoint at the highest number of steps will be used to generate the frozen inference graph.
 
 ### 4. Saving and Inferring the model
 
