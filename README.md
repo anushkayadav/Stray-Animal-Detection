@@ -11,12 +11,9 @@ This readme describes every step required to train your own custom classifying s
 4. Saving and Inferring the model
 
 
-The repository is inspired by the [How To Train an Object Detection Classifier for Multiple Objects Using TensorFlow (GPU) on Windows 10](https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10) repository.
-
-[Appendix: Common Errors](https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10#appendix-common-errors)
 
 <p align="center">
-  <img src="doc/image2.png">
+  <img src="doc/image2.png" width="300">
 </p>
 
 ## Introduction
@@ -53,12 +50,12 @@ Create a folder directly and name it “tensorflow1”. This working directory w
 Download the full TensorFlow object detection repository located at https://github.com/tensorflow/models by clicking the “Clone or Download” button and downloading the zip file. Open the downloaded zip file and extract the “models-master” folder directly into the tensorflow1 directory you just created. Rename “models-master” to just “models”.
 
 
-#### 2b. Download the Faster-RCNN-Inception-V2-COCO model from TensorFlow's model zoo
+#### 2b. Download  models from TensorFlow's model zoo
 TensorFlow provides several object detection models (pre-trained classifiers with specific neural network architectures) in its [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Some models (such as the SSD-MobileNet model) have an architecture that allows for faster detection but with less accuracy, while some models (such as the Faster-RCNN model) give slower detection but with more accuracy.
 
 You can choose which model to train your objection detection classifier on. If you are planning on using the object detector on a device with low computational power (such as a smart phone or Raspberry Pi), use the SDD-MobileNet model. If you will be running your detector on a decently powered laptop or desktop PC, use one of the RCNN models. 
 
-This tutorial will use the Faster-RCNN-Inception-Resnet50model, we also the same using SSD-Inception-v2 and SSDLite-MobileNet. Download the Faster-RCNN-Inception-V2 model and simultaneously extract .
+This tutorial will use the Faster-RCNN-Inception-Resnet50model, we also the same using **SSD-Inception-v2** and **SSDLite-MobileNet**. Download the **Faster-RCNN-Inception-V2** model and simultaneously extract .
 
 #### 2c. Download this tutorial's repository from GitHub
 Download the full repository located on this page (scroll to the top and click Clone or Download) and extract all the contents directly into the tensorflow1/models/research/object_detection directory. (You can overwrite the existing "README.md" file.) This establishes a specific directory structure that will be used for the rest of the tutorial. Also, move the train/ and val/ created earlier from your local system to the server.
@@ -86,7 +83,7 @@ set PYTHONPATH=C:\Users\anush\tensorflow1\models;C:\Users\anush\tensorflow1\mode
 $ pip install tensorflow-gpu==1.12
 $ pip install pillow lxml Cython matplotlib pandas opencv-python
 ```
-(Note: The ‘pandas’ and ‘opencv-python’ packages are not needed by TensorFlow, but they are used in the Python scripts to generate TFRecords and to work with images, videos, and webcam feeds.)
+
 
 #### 2e. Compile Protobufs and run setup.py
 Next, compile the Protobuf files, which are used by TensorFlow to configure model and training parameters. Unfortunately, the short protoc compilation command posted on TensorFlow’s Object Detection API [installation page](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md) does not work everytime. Every  .proto file in the /object_detection/protos directory must be called out individually by the command.
@@ -237,13 +234,16 @@ $ tensorboard --logdir=eval_faster_rcnn/
 </p>
 
 
-### 5. [Deploying it on Raspberry Pi](https://github.com/EdjeElectronics/TensorFlow-Object-Detection-on-the-Raspberry-Pi)
-    Edje Electronics tutorial is a very good reference for the same.
-
-
 ## Results on different models :
 
 <p align="center">
 <img src="doc/res.png">
 </p>
+
+## References
+
+- [Object Detection Classifier for Multiple Objects Using TensorFlow (GPU) on Windows 10](https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10) 
+
+- [Appendix: Common Errors](https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10#appendix-common-errors)
+
 
